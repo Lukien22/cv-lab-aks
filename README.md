@@ -74,3 +74,45 @@ If you have previously initialized Helm, execute the following command to upgrad
 
 ```bash
 helm init --upgrade --service-account tiller
+```
+
+## Step 3: Deploy The WordPress Helm Chart
+
+Once Helm is installed, you’re ready to deploy WordPress using the Bitnami WordPress Helm Chart.
+
+* Add the Microsoft Azure Marketplace chart repository to Helm:
+
+```bash
+helm repo add azure-marketplace https://marketplace.azurecr.io/helm/v1/repo
+```
+
+* Install the WordPress Helm Chart by executing the command below.
+
+helm install azure-marketplace/wordpress
+
+You should see something like the output below as the chart is installed. Pay special attention to the NOTES section of the output, as it contains important information to access the application.
+
+Helm chart output
+
+NOTE: Some Bitnami charts, such as those for Magento and Ghost, can connect to an external database and require deployment in two steps. First, deploy the database server and obtain its public IP address and then, run the helm upgrade command with the public IP address. For example:
+
+helm upgrade azure-marketplace/magento --set magentoHost=$APP_HOST,magentoPassword=$APP_PASSWORD,mariadb.db.password=$APP_DATABASE_PASSWORD 
+For v1.9 or v1.10 AKS clusters, you must add the secret to the command line above:
+
+helm upgrade azure-marketplace/magento --set magentoHost=$APP_HOST,magentoPassword=$APP_PASSWORD,mariadb.db.password=$APP_DATABASE_PASSWORD --set global.imagePullSecrets={emptysecret}
+Check pod status until both WordPress and MariaDB are “running”:
+
+kubectl get pods -w
+Pods
+
+Check services until you see the load balancer’s external IP address:
+
+kubectl get svc -w wordpress-chart-wordpress --namespace default
+Load balancer
+
+Get the credentials for the application by executing the commands shown in the output of helm install:
+
+Helm chart commands
+
+Browse to the specified URL and you should see WordPress running. Here’s what it should look like:
+
