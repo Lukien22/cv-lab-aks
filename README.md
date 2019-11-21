@@ -94,17 +94,23 @@ helm install azure-marketplace/wordpress
 
 You should see something like the output below as the chart is installed. Pay special attention to the NOTES section of the output, as it contains important information to access the application.
 
+![Bitnami Helm Charts](https://docs.bitnami.com/images/img/platforms/azure/aks-tutorial-helm-output.png)
+
 * Check pod status until both WordPress and MariaDB are “running”:
 
 ```bash
 kubectl get pods -w
 ```
 
+![Bitnami AKS pods](https://docs.bitnami.com/images/img/platforms/azure/aks-tutorial-helm-pods.png)
+
 * Check services until you see the load balancer’s external IP address:
 
 ```bash
 kubectl get svc -w wordpress-chart-wordpress --namespace default
 ```
+
+![Bitnami AKS Loadbalancer](https://docs.bitnami.com/images/img/platforms/azure/aks-tutorial-helm-lb.png)
 
 * Get the credentials for the application by executing the commands shown in the output of helm install:
 
