@@ -39,3 +39,38 @@ In this example, the resource group is named aks-resource-group and the cluster 
 sudo az aks install-cli
 az aks get-credentials --name aks-cluster --resource-group aks-resource-group
 ```
+
+
+## Step 2: Install And Configure Helm And Tiller
+
+Next, install and configure Helm for your operating system and then create the following Kubernetes objects to make Helm work with Role-Based Access Control (RBAC) in AKS:
+
+* ClusterRoleBinding
+* ServiceAccount
+
+Follow these instructions:
+
+* To install Helm, run the following commands:
+
+```bash
+curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh
+chmod 700 get_helm.sh
+./get_helm.sh
+```
+
+* To create a ServiceAccount and associate it with the predefined cluster-admin role, use a ClusterRoleBinding, as below:
+
+```bash
+kubectl create serviceaccount -n kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+```
+
+* Initialize Helm as shown below:
+```bash
+helm init --service-account tiller
+```
+
+If you have previously initialized Helm, execute the following command to upgrade it:
+
+```bash
+helm init --upgrade --service-account tiller
