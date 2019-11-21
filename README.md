@@ -113,3 +113,8 @@ kubectl get svc -w wordpress-chart-wordpress --namespace default
 Browse to the specified URL and you should see WordPress running. Here’s what it should look like:
 
 ![Bitnami Helm Commands](https://docs.bitnami.com/images/img/platforms/common/tutorial-check-wordpress.png)
+
+
+## Reference
+Click [here](https://docs.bitnami.com/azure/get-started-charts-marketplace/) to go to the full article on Bitnami site.
+
